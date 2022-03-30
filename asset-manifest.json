@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.js": "/MovKeep/static/js/main.361967f5.js",
+    "main.js": "/MovKeep/static/js/main.1b48df8d.js",
     "static/media/LogInBack.png": "/MovKeep/static/media/LogInBack.99fc9e119cfd23e6525c.png",
     "static/media/Logo.png": "/MovKeep/static/media/Logo.f254d856d64b94df7f1b.png",
     "index.html": "/MovKeep/index.html",
-    "main.361967f5.js.map": "/MovKeep/static/js/main.361967f5.js.map"
+    "main.1b48df8d.js.map": "/MovKeep/static/js/main.1b48df8d.js.map"
   },
   "entrypoints": [
-    "static/js/main.361967f5.js"
+    "static/js/main.1b48df8d.js"
   ]
 }
