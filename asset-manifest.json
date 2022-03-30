@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.js": "/Prime153/MovKeep/static/js/main.97dd7578.js",
+    "main.js": "/Prime153/MovKeep/static/js/main.b3207538.js",
     "static/media/LogInBack.png": "/Prime153/MovKeep/static/media/LogInBack.99fc9e119cfd23e6525c.png",
     "static/media/Logo.png": "/Prime153/MovKeep/static/media/Logo.f254d856d64b94df7f1b.png",
     "index.html": "/Prime153/MovKeep/index.html",
-    "main.97dd7578.js.map": "/Prime153/MovKeep/static/js/main.97dd7578.js.map"
+    "main.b3207538.js.map": "/Prime153/MovKeep/static/js/main.b3207538.js.map"
   },
   "entrypoints": [
-    "static/js/main.97dd7578.js"
+    "static/js/main.b3207538.js"
   ]
 }
