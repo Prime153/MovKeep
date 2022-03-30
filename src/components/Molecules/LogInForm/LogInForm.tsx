@@ -48,7 +48,6 @@ const Basic: React.FC<Props> = ({ isLogin }) => {
       .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.'),
   });
 
-  // TODO animacje do refactoru
   useEffect(() => {
     // gsap.set(passEmailInput.current, { autoAlpha: 0 });
 
