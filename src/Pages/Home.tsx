@@ -1,7 +1,7 @@
 import React from "react";
 
 const Home: React.FC = () => {
-  return <></>;
+  return <><p>dupa</p></>;
 };
 
 export default Home;

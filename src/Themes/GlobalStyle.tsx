@@ -8,12 +8,12 @@ const GlobalStyle = createGlobalStyle`
  
 }
 html {
-    font-size:62.5%; 
+  font-size: calc(15px + 0.390625vw);
 }
 body {
    padding:0; 
     margin:0;
-    font-size:1.6rem;
+    font-family: 'Roboto, sans-serif';
     
 }
 `;
