@@ -90,6 +90,7 @@ export const LoginContainer = styled.div<Log>`
   transition: 0.4s;
   position: relative;
 
+
   ${({ isLogin }) =>
     !isLogin &&
     css`

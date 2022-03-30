@@ -8,7 +8,7 @@ import { routes } from './Routes/routes';
 const App: React.FC = () => {
   return (
     <MainTemplate>
-      <BrowserRouter>
+      <BrowserRouter basename='MovKeep'>
         <Routes>
           <Route path={routes.login} element={<LogIn />} />
           <Route path={routes.home} element={<Home />} />

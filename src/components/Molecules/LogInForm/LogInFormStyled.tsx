@@ -8,10 +8,10 @@ interface Log {
 
 export const MainContainer = styled.div<Log>`
   width: 65%;
-  height: 80%;
   font-family: ${({ theme }) => theme.fontFamily.Roboto};
   text-align: center;
   transition: 0.4s;
+  height: 80%;
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;
@@ -68,7 +68,7 @@ export const GoogleButton = styled.button`
 export const Error = styled(ErrorMessage)`
   color: #fff;
   position: absolute;
-  top: 52px;
+  top: 95%;
   width: 60%;
   border-radius: 5px;
   padding: 5px 0;
@@ -85,4 +85,15 @@ export const InputContainer = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
+
+  :nth-child(2) {
+    top: 28px;
+  }
+
+  :nth-child(3) {
+    visibility: hidden;
+  }
+  :nth-child(4) {
+    visibility: hidden;
+  }
 `;

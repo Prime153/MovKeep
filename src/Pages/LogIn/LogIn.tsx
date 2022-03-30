@@ -1,4 +1,4 @@
-import React, { useState,useEffect,useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import LogInForm from '../../components/Molecules/LogInForm/LogInForm';
 import {
   MainContainer,
@@ -8,20 +8,20 @@ import {
   ImageContainer,
   LoginContainer,
 } from './LoginStyled';
-import gsap from 'gsap'
+import gsap from 'gsap';
 
 const LogIn: React.FC = () => {
-  const [isLogin, changeState] = useState<{ log?: Boolean; sign?: Boolean }>({
+  const [isLogin, changeState] = useState<{ log?: Boolean; sign?: Boolean; init?: Boolean }>({
     log: true,
     sign: false,
+    init: false,
   });
 
   const container = useRef<HTMLDivElement>(null);
 
-
   useEffect(() => {
-    gsap.fromTo(container.current, {opacity: 0}, {opacity: 1, duration: 1});
-  },[])
+    gsap.fromTo(container.current, { opacity: 0 }, { opacity: 1, duration: 1 });
+  }, []);
 
   return (
     <MainContainer ref={container}>
@@ -35,6 +35,7 @@ const LogIn: React.FC = () => {
               changeState({
                 log: true,
                 sign: false,
+                init: true,
               })
             }
             isLogin={isLogin.log}
@@ -47,6 +48,7 @@ const LogIn: React.FC = () => {
               changeState({
                 log: false,
                 sign: true,
+                init: true,
               })
             }
             isLogin={isLogin.sign}
@@ -54,7 +56,7 @@ const LogIn: React.FC = () => {
             Sign Up
           </LogSignButton>
         </LogSignContainer>
-        <LogInForm isLogin={isLogin.log} />
+        <LogInForm isLogin={isLogin.log} isClicked={isLogin.init} />
       </LoginContainer>
     </MainContainer>
   );

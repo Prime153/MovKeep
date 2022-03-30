@@ -19,9 +19,10 @@ interface Values {
 
 interface Props {
   isLogin: Boolean | undefined;
+  isClicked: Boolean | undefined;
 }
 
-const Basic: React.FC<Props> = ({ isLogin }) => {
+const LogInForm: React.FC<Props> = ({ isLogin, isClicked }) => {
   const initalValues: Values = { username: '', password: '', passwordConfirm: '', email: '' };
   const goggleContainer = useRef<HTMLDivElement>(null);
   const passEmailInput = useRef<Array<HTMLDivElement>>([]);
@@ -49,21 +50,23 @@ const Basic: React.FC<Props> = ({ isLogin }) => {
   });
 
   useEffect(() => {
-    // gsap.set(passEmailInput.current, { autoAlpha: 0 });
-
     if (isLogin) {
       // Log in
+
       gsap.to(goggleContainer.current, {
         y: 0,
         autoAlpha: 1,
       });
-      gsap.to(passEmailInput.current, {
-        y: 0,
-        autoAlpha: 0,
-      });
-      gsap.to(pass.current, {
-        y: 28,
-      });
+
+      if (isClicked) {
+        gsap.to(passEmailInput.current, {
+          y: 0,
+          autoAlpha: 0,
+        });
+        gsap.to(pass.current, {
+          y: 28,
+        });
+      }
 
       gsap.to(formContainer.current, {
         y: 0,
@@ -74,30 +77,25 @@ const Basic: React.FC<Props> = ({ isLogin }) => {
       });
     } else {
       gsap.to(goggleContainer.current, {
-        duration: 0.3,
         y: -20,
         autoAlpha: 0,
       });
       gsap.to(passEmailInput.current, {
-        duration: 0.3,
         autoAlpha: 1,
       });
       gsap.to(pass.current, {
-        duration: 0.3,
-        y: 0,
+        y: -28,
       });
 
       gsap.to(formContainer.current, {
-        duration: 0.3,
         height: '60%',
         y: -70,
       });
       gsap.to(logo.current, {
-        duration: 0.3,
         y: 30,
       });
     }
-  }, [isLogin]);
+  }, [isLogin, isClicked]);
 
   return (
     <MainContainer isLogin={isLogin}>
@@ -178,4 +176,4 @@ const Basic: React.FC<Props> = ({ isLogin }) => {
   );
 };
 
-export default Basic;
+export default LogInForm;
