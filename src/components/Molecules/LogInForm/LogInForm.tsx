@@ -9,9 +9,10 @@ import { FcGoogle as GoogleIcon } from 'react-icons/fc';
 import gsap from 'gsap';
 import LogSignButton from '../../Atoms/LogInButton/LogSignButton';
 import assignRefToArray from '../../../utils/AssignRefsToArray';
+import { useAuth } from '../../../Contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 interface Values {
-  username: string;
   password: string;
   passwordConfirm: string;
   email: string;
@@ -23,15 +24,17 @@ interface Props {
 }
 
 const LogInForm: React.FC<Props> = ({ isLogin, isClicked }) => {
-  const initalValues: Values = { username: '', password: '', passwordConfirm: '', email: '' };
+  const initalValues: Values = { password: '', passwordConfirm: '', email: '' };
   const goggleContainer = useRef<HTMLDivElement>(null);
   const passEmailInput = useRef<Array<HTMLDivElement>>([]);
   const formContainer = useRef<HTMLFormElement>(null);
   const pass = useRef<HTMLDivElement>(null);
   const logo = useRef<HTMLImageElement>(null);
+  const history = useNavigate();
+
+  const { signUp, logIn, errorHandle } = useAuth();
 
   const SchemaSignUp = Yup.object({
-    username: Yup.string().required('Required'),
     password: Yup.string()
       .required('No password provided')
       .min(4, 'Password is too short - at least 4 char.')
@@ -42,11 +45,11 @@ const LogInForm: React.FC<Props> = ({ isLogin, isClicked }) => {
     email: Yup.string().email().required('No email provided'),
   });
   const SchemaLogIn = Yup.object({
-    username: Yup.string().required('Required'),
     password: Yup.string()
       .required('No password provided')
       .min(4, 'Password is too short - at least 4 char.')
       .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.'),
+    email: Yup.string().email().required('No email provided'),
   });
 
   useEffect(() => {
@@ -97,6 +100,8 @@ const LogInForm: React.FC<Props> = ({ isLogin, isClicked }) => {
     }
   }, [isLogin, isClicked]);
 
+  
+
   return (
     <MainContainer isLogin={isLogin}>
       <picture>
@@ -114,23 +119,25 @@ const LogInForm: React.FC<Props> = ({ isLogin, isClicked }) => {
       <Formik
         initialValues={initalValues}
         validationSchema={isLogin ? SchemaLogIn : SchemaSignUp}
-        onSubmit={(values, { resetForm }) => {
-          resetForm();
-          console.log(values);
+        onSubmit={async (values, { resetForm }) => {
+          isLogin
+            ? await logIn(values.email, values.password).then(() => history('/home'))
+            : await signUp(values.email, values.password);
         }}
       >
-        {({ isSubmitting, handleSubmit, errors, values, handleChange }) => (
+        {({ values, handleChange }) => (
           <FormContainer ref={formContainer}>
             <FormikContext isLogin={isLogin} />
             <InputContainer>
               <Input
+                icon="mail"
                 onChange={handleChange}
-                value={values.username}
-                name="username"
-                type="text"
-                placeholder="Username"
+                value={values.email}
+                name="email"
+                type="email"
+                placeholder="Email"
               />
-              <Error name="username" component="div" />
+              <Error name="email" component="div" />
             </InputContainer>
             <InputContainer ref={pass}>
               <Input
@@ -155,20 +162,8 @@ const LogInForm: React.FC<Props> = ({ isLogin, isClicked }) => {
               />
               <Error name="passwordConfirm" component="div" />
             </InputContainer>
-
-            <InputContainer ref={assignRefToArray(passEmailInput.current)}>
-              <Input
-                icon="mail"
-                onChange={handleChange}
-                value={values.email}
-                name="email"
-                type="email"
-                placeholder="Email"
-              />
-              <Error name="email" component="div" />
-            </InputContainer>
-
-            <LogSignButton title={isLogin ? 'Login' : 'Sign up'} type="submit" disabled={isSubmitting} />
+            {errorHandle && <span>{errorHandle.code}</span>}
+            <LogSignButton title={isLogin ? 'Login' : 'Sign up'} type="submit" disabled={false} />
           </FormContainer>
         )}
       </Formik>

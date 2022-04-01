@@ -19,8 +19,10 @@ const LogIn: React.FC = () => {
 
   const container = useRef<HTMLDivElement>(null);
 
+
+  // ! page shuttering on animation
   useEffect(() => {
-    gsap.fromTo(container.current, { opacity: 0 }, { opacity: 1, duration: 1 });
+    gsap.to(container.current, { autoAlpha: 1, duration: 0.4 });
   }, []);
 
   return (

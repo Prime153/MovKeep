@@ -9,6 +9,7 @@ export const MainContainer = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
+  visibility:hidden;
 `;
 
 export const ImageContainer = styled.div<Log>`
@@ -21,6 +22,7 @@ export const ImageContainer = styled.div<Log>`
   justify-content: center;
   align-items: center;
   transition: 0.4s;
+ 
 
   @media all and (max-width: ${({ theme }) => theme.breakpoints.medium}) {
     display: none;
@@ -89,6 +91,8 @@ export const LoginContainer = styled.div<Log>`
   align-items: center;
   transition: 0.4s;
   position: relative;
+
+
 
 
   ${({ isLogin }) =>
