@@ -52,6 +52,15 @@ export const GoogleButton = styled.button`
   justify-content: center;
   align-items: center;
   position: relative;
+  cursor: pointer;
+  transition: 0.1s;
+
+  :hover {
+    background:#dfdfdf
+  }
+  :focus {
+    background: #fff;
+  }
 
   svg {
     position: absolute;

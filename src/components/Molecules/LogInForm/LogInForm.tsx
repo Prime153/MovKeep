@@ -32,7 +32,7 @@ const LogInForm: React.FC<Props> = ({ isLogin, isClicked }) => {
   const logo = useRef<HTMLImageElement>(null);
   const history = useNavigate();
 
-  const { signUp, logIn, errorHandle } = useAuth();
+  const { signUp, logIn, errorHandle, logWithGoogle } = useAuth();
 
   const SchemaSignUp = Yup.object({
     password: Yup.string()
@@ -52,6 +52,7 @@ const LogInForm: React.FC<Props> = ({ isLogin, isClicked }) => {
     email: Yup.string().email().required('No email provided'),
   });
 
+  
   useEffect(() => {
     if (isLogin) {
       // Log in
@@ -108,7 +109,7 @@ const LogInForm: React.FC<Props> = ({ isLogin, isClicked }) => {
         <LogoImage ref={logo} src={Logo} />
       </picture>
       <div ref={goggleContainer}>
-        <GoogleButton>
+        <GoogleButton onClick={async () => await logWithGoogle().then(() => history('/home'))}>
           <GoogleIcon />
           <span>Log in with Google</span>
         </GoogleButton>
@@ -122,7 +123,7 @@ const LogInForm: React.FC<Props> = ({ isLogin, isClicked }) => {
         onSubmit={async (values, { resetForm }) => {
           isLogin
             ? await logIn(values.email, values.password).then(() => history('/home'))
-            : await signUp(values.email, values.password);
+            : await signUp(values.email, values.password).then(() => resetForm());
         }}
       >
         {({ values, handleChange }) => (

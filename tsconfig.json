@@ -6,7 +6,6 @@
         "dom.iterable",
         "esnext"
       ],
-      "typescript.tsserver.log": "verbose",
       "allowJs": true,
       "skipLibCheck": true,
       "esModuleInterop": true,

@@ -12,4 +12,11 @@ export const LogSubmitButton = styled.button<{ type: String }>`
   padding: 10px;
   cursor: pointer;
   z-index: 1;
+  transition: 0.1s;
+  :hover {
+    background: #dfdfdf;
+  }
+  :focus {
+    background: #fff;
+  }
 `;

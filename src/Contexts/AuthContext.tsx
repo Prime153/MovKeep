@@ -1,8 +1,17 @@
 import React, { useContext, useState, useEffect, createContext } from 'react';
 import { auth } from '../firebase';
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from 'firebase/auth';
+
 
 const AuthContext = createContext<any | null>(null);
+const provider = new GoogleAuthProvider();
 
 export const useAuth = () => {
   return useContext(AuthContext);
@@ -25,7 +34,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logIn = async (email: string, password: string) => {
     return signInWithEmailAndPassword(auth, email, password)
       .then(() => {
-        sessionStorage.setItem('user', JSON.stringify(currentUser));
+        sessionStorage.setItem('user', currentUser);
         console.log('user has been logged in');
       })
       .catch((error) => {
@@ -36,8 +45,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logOut = async (email: string, password: string) => {
     return signOut(auth)
       .then(() => {
-        sessionStorage.removeItem("user");
+        sessionStorage.removeItem('user');
         console.log('user has been loged out');
+      })
+      .catch((error) => {
+        setError(error);
+      });
+  };
+
+  const logWithGoogle = async () => {
+    return signInWithPopup(auth, provider)
+      .then(() => {
+        sessionStorage.setItem('user', currentUser);
+        console.log('user has been logged in through Google');
       })
       .catch((error) => {
         setError(error);
@@ -56,6 +76,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     signUp,
     logIn,
     logOut,
+    logWithGoogle,
     errorHandle,
   };
 
