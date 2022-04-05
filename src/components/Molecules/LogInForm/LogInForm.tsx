@@ -1,7 +1,15 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import { Formik } from 'formik';
 import FormikContext from '../../../utils/FormikContext';
-import { MainContainer, Error, GoogleButton, InputContainer, LogoImage, FormContainer } from './LogInFormStyled';
+import {
+  MainContainer,
+  Error,
+  GoogleButton,
+  ForgottenPassword,
+  InputContainer,
+  LogoImage,
+  FormContainer,
+} from './LogInFormStyled';
 import Input from '../../Atoms/Input/Input';
 import * as Yup from 'yup';
 import Logo from '../../../assets/Images/Logo.png';
@@ -10,7 +18,7 @@ import gsap from 'gsap';
 import LogSignButton from '../../Atoms/LogInButton/LogSignButton';
 import assignRefToArray from '../../../utils/AssignRefsToArray';
 import { useAuth } from '../../../Contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import Alert from '../../Atoms/Alert/Alert';
 
 interface Values {
   password: string;
@@ -30,7 +38,7 @@ const LogInForm: React.FC<Props> = ({ isLogin, isClicked }) => {
   const formContainer = useRef<HTMLFormElement>(null);
   const pass = useRef<HTMLDivElement>(null);
   const logo = useRef<HTMLImageElement>(null);
-  const history = useNavigate();
+  const forgotten = useRef<HTMLButtonElement>(null);
 
   const { signUp, logIn, errorHandle, logWithGoogle } = useAuth();
 
@@ -52,7 +60,11 @@ const LogInForm: React.FC<Props> = ({ isLogin, isClicked }) => {
     email: Yup.string().email().required('No email provided'),
   });
 
-  
+  const convertMessage = useCallback((error: String) => {
+    const pureSentance = error.split('/')[1].replaceAll('-', ' ');
+    return pureSentance.charAt(0).toLocaleUpperCase() + pureSentance.slice(1);
+  }, []);
+
   useEffect(() => {
     if (isLogin) {
       // Log in
@@ -68,7 +80,7 @@ const LogInForm: React.FC<Props> = ({ isLogin, isClicked }) => {
           autoAlpha: 0,
         });
         gsap.to(pass.current, {
-          y: 28,
+          y: 0,
         });
       }
 
@@ -79,6 +91,10 @@ const LogInForm: React.FC<Props> = ({ isLogin, isClicked }) => {
       gsap.to(logo.current, {
         y: 0,
       });
+      gsap.to(forgotten.current, {
+        autoAlpha: 1,
+      });
+      
     } else {
       gsap.to(goggleContainer.current, {
         y: -20,
@@ -88,7 +104,7 @@ const LogInForm: React.FC<Props> = ({ isLogin, isClicked }) => {
         autoAlpha: 1,
       });
       gsap.to(pass.current, {
-        y: -28,
+        y: -30,
       });
 
       gsap.to(formContainer.current, {
@@ -98,18 +114,21 @@ const LogInForm: React.FC<Props> = ({ isLogin, isClicked }) => {
       gsap.to(logo.current, {
         y: 30,
       });
+      gsap.to(forgotten.current, {
+        autoAlpha: 0,
+      });
     }
   }, [isLogin, isClicked]);
 
-  
-
   return (
     <MainContainer isLogin={isLogin}>
+      {errorHandle && <Alert type="error">{convertMessage(errorHandle.code)}</Alert>}
+
       <picture>
         <LogoImage ref={logo} src={Logo} />
       </picture>
       <div ref={goggleContainer}>
-        <GoogleButton onClick={async () => await logWithGoogle().then(() => history('/home'))}>
+        <GoogleButton onClick={async () => await logWithGoogle()}>
           <GoogleIcon />
           <span>Log in with Google</span>
         </GoogleButton>
@@ -122,7 +141,7 @@ const LogInForm: React.FC<Props> = ({ isLogin, isClicked }) => {
         validationSchema={isLogin ? SchemaLogIn : SchemaSignUp}
         onSubmit={async (values, { resetForm }) => {
           isLogin
-            ? await logIn(values.email, values.password).then(() => history('/home'))
+            ? await logIn(values.email, values.password)
             : await signUp(values.email, values.password).then(() => resetForm());
         }}
       >
@@ -163,7 +182,8 @@ const LogInForm: React.FC<Props> = ({ isLogin, isClicked }) => {
               />
               <Error name="passwordConfirm" component="div" />
             </InputContainer>
-            {errorHandle && <span>{errorHandle.code}</span>}
+            <ForgottenPassword ref={forgotten} type="button">Forgot password?</ForgottenPassword>
+
             <LogSignButton title={isLogin ? 'Login' : 'Sign up'} type="submit" disabled={false} />
           </FormContainer>
         )}

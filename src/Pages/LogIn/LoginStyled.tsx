@@ -75,6 +75,7 @@ export const MainHeading = styled.h1<Log>`
   transition: 0.4s;
   text-align: center;
   padding: 0 10px;
+  margin: 0 5px;
 
   ${({ isLogin }) =>
     !isLogin &&

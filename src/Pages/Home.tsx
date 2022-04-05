@@ -10,7 +10,7 @@ const Home: React.FC = () => {
   const container = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    gsap.to(container.current, { autoAlpha: 1, duration: 1 });
+    gsap.fromTo(container.current, {autoAlpha: 0}, { autoAlpha: 1, duration: 0.2 });
   }, []);
 
   const handleLogOut = async () => {
@@ -24,7 +24,7 @@ const Home: React.FC = () => {
 
   return (
     <div ref={container}>
-      <button onClick={handleLogOut}>log out</button>;
+      <button onClick={handleLogOut}>log out</button>
     </div>
   );
 };

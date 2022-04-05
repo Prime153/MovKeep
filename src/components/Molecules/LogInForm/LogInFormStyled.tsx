@@ -6,6 +6,7 @@ interface Log {
   isLogin?: Boolean | undefined;
 }
 
+
 export const MainContainer = styled.div<Log>`
   width: 65%;
   font-family: ${({ theme }) => theme.fontFamily.Roboto};
@@ -37,6 +38,7 @@ export const FormContainer = styled(Form)<Log>`
   display: flex;
   justify-content: space-between;
   flex-flow: column nowrap;
+  position: relative;
 `;
 
 export const GoogleButton = styled.button`
@@ -56,7 +58,7 @@ export const GoogleButton = styled.button`
   transition: 0.1s;
 
   :hover {
-    background:#dfdfdf
+    background: #dfdfdf;
   }
   :focus {
     background: #fff;
@@ -81,7 +83,7 @@ export const Error = styled(ErrorMessage)`
   width: 60%;
   border-radius: 5px;
   padding: 5px 0;
-  background-color: #dd4b39;
+  background-color: #d32f2f;
   font-size: ${({ theme }) => theme.fontSize.xs};
 `;
 
@@ -105,4 +107,17 @@ export const InputContainer = styled.div`
   :nth-child(4) {
     visibility: hidden;
   }
+`;
+
+export const ForgottenPassword = styled.button`
+  position: absolute;
+  color: #fff;
+  text-decoration: underline;
+  top: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  align-self: center;
+  margin-top: 10px;
+  font-size:  ${({ theme }) => theme.fontSize.xs};
 `;
