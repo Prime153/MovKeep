@@ -10,8 +10,6 @@ import {
 } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
-
-
 const AuthContext = createContext<any | null>(null);
 const provider = new GoogleAuthProvider();
 
@@ -24,25 +22,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [errorHandle, setError] = useState<Object | undefined>();
   const history = useNavigate();
 
-// ! error handling to improve
-
+  // ! error handling to improve
 
   const clearError = (): void => {
-   setTimeout(() => {
-    setError(undefined)
-   },3000)
-  }
- 
+    setTimeout(() => {
+      setError(undefined);
+    }, 3000);
+  };
 
   const signUp = async (email: string, password: string) => {
     return createUserWithEmailAndPassword(auth, email, password)
       .then(() => {
-        console.log('user has been added to database');
-       
+        console.warn('user has been added to database');
       })
       .catch((error) => {
         setError(error);
-        clearError()
+        clearError();
       });
   };
 
@@ -50,13 +45,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return signInWithEmailAndPassword(auth, email, password)
       .then(() => {
         sessionStorage.setItem('user', currentUser);
-        console.log('user has been logged in');
-        history('/home')
-        setError(undefined)
+        console.warn('user has been logged in');
+        history('/home');
+        setError(undefined);
       })
       .catch((error) => {
         setError(error);
-        clearError()
+        clearError();
       });
   };
 
@@ -64,12 +59,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return signOut(auth)
       .then(() => {
         sessionStorage.removeItem('user');
-        console.log('user has been loged out');
-       
+        console.warn('user has been loged out');
       })
       .catch((error) => {
         setError(error);
-        clearError()
+        clearError();
       });
   };
 
@@ -77,28 +71,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return signInWithPopup(auth, provider)
       .then(() => {
         sessionStorage.setItem('user', currentUser);
-        console.log('user has been logged in through Google');
-        history('/home')
-        setError(undefined)
+        console.warn('user has been logged in through Google');
+        history('/home');
+        setError(undefined);
       })
       .catch((error) => {
         setError(error);
-        clearError()
+        clearError();
       });
   };
 
   useEffect(() => {
-
-
     const unSubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
     });
     return unSubscribe;
-
   }, []);
-
-
-
 
   const value = {
     currentUser,

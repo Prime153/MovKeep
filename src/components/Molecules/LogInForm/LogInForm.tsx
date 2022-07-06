@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback, useState } from 'react';
 import { Formik } from 'formik';
 import FormikContext from '../../../utils/FormikContext';
 import {
@@ -19,6 +19,8 @@ import LogSignButton from '../../Atoms/LogInButton/LogSignButton';
 import assignRefToArray from '../../../utils/AssignRefsToArray';
 import { useAuth } from '../../../Contexts/AuthContext';
 import Alert from '../../Atoms/Alert/Alert';
+import useAxios from '../../../utils/test';
+import Loading from '../../../Pages/Loading/Loading';
 
 interface Values {
   password: string;
@@ -94,7 +96,6 @@ const LogInForm: React.FC<Props> = ({ isLogin, isClicked }) => {
       gsap.to(forgotten.current, {
         autoAlpha: 1,
       });
-      
     } else {
       gsap.to(goggleContainer.current, {
         y: -20,
@@ -119,6 +120,10 @@ const LogInForm: React.FC<Props> = ({ isLogin, isClicked }) => {
       });
     }
   }, [isLogin, isClicked]);
+
+  const [response, error, loading] = useAxios('https://api.punkapi.com/v2/beers/random');
+
+  console.log(response?.data);
 
   return (
     <MainContainer isLogin={isLogin}>
@@ -182,7 +187,9 @@ const LogInForm: React.FC<Props> = ({ isLogin, isClicked }) => {
               />
               <Error name="passwordConfirm" component="div" />
             </InputContainer>
-            <ForgottenPassword ref={forgotten} type="button">Forgot password?</ForgottenPassword>
+            <ForgottenPassword ref={forgotten} type="button">
+              Forgot password?
+            </ForgottenPassword>
 
             <LogSignButton title={isLogin ? 'Login' : 'Sign up'} type="submit" disabled={false} />
           </FormContainer>

@@ -22,8 +22,6 @@ export const Container = styled.div`
   padding: 12px 5px;
   background: white;
   margin: 10px 0;
-
-  
 `;
 
 export const IconContainer = styled.div`
