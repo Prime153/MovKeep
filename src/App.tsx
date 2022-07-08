@@ -9,6 +9,7 @@ import PrivateRoutes from './Templates/RoutesTemplates/PrivateRoutes';
 import SessionRoutes from './Templates/RoutesTemplates/SessionRoutes';
 
 const App: React.FC = () => {
+  console.log("dupa")
   return (
     <ThemesProvider>
       <BrowserRouter basename="MovKeep">
